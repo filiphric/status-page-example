@@ -1,8 +1,12 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { type HistoricalStatus } from "@/utils/statusData"
-import { HistoricalStatusItem } from "./historical-status-item"
+"use client"
 
-export function HistoricalStatus({ data }: { data: HistoricalStatus[] }) {
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { HistoricalStatusItem } from "./historical-status-item"
+import { useStatusStore } from "@/stores/statusStore"
+
+export function HistoricalStatus() {
+  const history = useStatusStore((state) => state.history)
+
   return (
     <Card>
       <CardHeader>
@@ -10,7 +14,7 @@ export function HistoricalStatus({ data }: { data: HistoricalStatus[] }) {
       </CardHeader>
       <CardContent>
         <div className="space-y-2">
-          {data.map((item) => (
+          {history.map((item) => (
             <HistoricalStatusItem key={item.date} item={item} />
           ))}
         </div>

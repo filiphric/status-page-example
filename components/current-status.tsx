@@ -1,9 +1,13 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { SystemStatus, getOverallStatus, getStatusColor } from "@/utils/statusData"
+"use client"
 
-export function CurrentStatus({ systems }: { systems: SystemStatus[] }) {
-  const overallStatus = getOverallStatus(systems);
-  const statusColor = getStatusColor(overallStatus);
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { getStatusColor, getOverallStatus } from "@/utils/statusData"
+import { useStatusStore } from "@/stores/statusStore"
+
+export function CurrentStatus() {
+  const systems = useStatusStore((state) => state.systems)
+  const overallStatus = getOverallStatus(systems)
+  const statusColor = getStatusColor(overallStatus)
 
   return (
     <Card>
@@ -13,7 +17,7 @@ export function CurrentStatus({ systems }: { systems: SystemStatus[] }) {
       <CardContent>
         <div className="flex items-center space-x-2 mb-4">
           <div className={`w-3 h-3 rounded-full ${statusColor}`} />
-          <span className="font-semibold capitalize">{overallStatus.replace("'-'", "'")}</span>
+          <span className="font-semibold capitalize">{overallStatus.replace("-", " ")}</span>
         </div>
         <div className="grid gap-2">
           {systems.map((system) => (
